@@ -26,7 +26,11 @@ import {
 import S3 from 'aws-sdk/clients/s3'
 import Cookies from 'js-cookie'
 
-import { S3_SESSION_TOKEN } from './s3-sts-client'
+import {
+  S3_ACCESS_KEY_ID,
+  S3_SECRET_ACCESS_KEY,
+  S3_SESSION_TOKEN,
+} from './s3-sts-client'
 
 export class S3MediaStore implements MediaStore {
   s3Bucket: string
@@ -181,16 +185,36 @@ const deleteFromS3 = async (bucket: string, key: string) => {
 }
 
 const getS3 = () => {
-  const sessionToken = getS3StsToken()
+  const [
+    accessKeyId,
+    secretAccessKey,
+    sessionToken,
+  ] = [
+    getS3AccessKeyId(),
+    getS3SecretAccessKey(),
+    getS3SessionToken(),
+  ]
 
   if (!sessionToken) {
     throw new Error('session token is required')
   }
 
-  return new S3({ sessionToken })
+  return new S3({
+    accessKeyId,
+    secretAccessKey,
+    sessionToken,
+  })
 }
 
-const getS3StsToken = (): string => {
+const getS3AccessKeyId = (): string => {
+  return Cookies.get(S3_ACCESS_KEY_ID) || ''
+}
+
+const getS3SecretAccessKey = (): string => {
+  return Cookies.get(S3_SECRET_ACCESS_KEY) || ''
+}
+
+const getS3SessionToken = (): string => {
   return Cookies.get(S3_SESSION_TOKEN) || ''
 }
 

@@ -15,11 +15,17 @@ distributed under the License is distributed on an "AS IS" BASIS,
  limitations under the License.
 
 */
+export declare const S3_ACCESS_KEY_ID = "tina_s3_access_key_id";
+export declare const S3_SECRET_ACCESS_KEY = "tina_s3_secret_access_key";
 export declare const S3_SESSION_TOKEN = "tina_s3_session_token";
 export declare class S3StsClient {
     region: string;
     s3Bucket: string;
     constructor(region: string, s3Bucket: string);
+    get accessKeyId(): string;
+    set accessKeyId(value: string);
+    get secretAccessKey(): string;
+    set secretAccessKey(value: string);
     get sessionToken(): string;
     set sessionToken(value: string);
     authenticate(accessKeyId: string, secretAccessKey: string): Promise<void>;

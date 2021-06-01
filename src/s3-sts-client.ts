@@ -20,6 +20,8 @@ import aws from 'aws-sdk'
 import STS from 'aws-sdk/clients/sts'
 import Cookies from 'js-cookie'
 
+export const S3_ACCESS_KEY_ID = 'tina_s3_access_key_id'
+export const S3_SECRET_ACCESS_KEY = 'tina_s3_secret_access_key'
 export const S3_SESSION_TOKEN = 'tina_s3_session_token'
 
 export class S3StsClient {
@@ -40,6 +42,22 @@ export class S3StsClient {
 
     this.region = region
     this.s3Bucket = s3Bucket
+  }
+
+  get accessKeyId(): string {
+    return Cookies.get(S3_ACCESS_KEY_ID) || ''
+  }
+
+  set accessKeyId(value: string) {
+    Cookies.set(S3_ACCESS_KEY_ID, value)
+  }
+
+  get secretAccessKey(): string {
+    return Cookies.get(S3_SECRET_ACCESS_KEY) || ''
+  }
+
+  set secretAccessKey(value: string) {
+    Cookies.set(S3_SECRET_ACCESS_KEY, value)
   }
 
   get sessionToken(): string {
@@ -64,6 +82,8 @@ export class S3StsClient {
       throw new Error('token is missing required Credentials attribute')
     }
 
+    this.accessKeyId = token.Credentials.AccessKeyId
+    this.secretAccessKey = token.Credentials.SecretAccessKey
     this.sessionToken = token.Credentials.SessionToken
   }
 }
