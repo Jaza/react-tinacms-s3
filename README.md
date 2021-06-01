@@ -1,4 +1,4 @@
-# react-tinacms-s3_
+# _react-tinacms-s3_
 
 This package provides helpers for managing TinaCMS media in **Amazon S3**.
 
