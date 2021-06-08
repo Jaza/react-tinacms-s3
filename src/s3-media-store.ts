@@ -247,10 +247,10 @@ const objectToMedia = (item: S3.Types.Object, s3ReadUrl: string): Media => {
   }
 
   const previewable = ['jpg', 'jpeg', 'png', 'webp', 'svg']
-  const directoryOnly =
-    item.Key.substr(0, item.Key.lastIndexOf('/')).replace(/^\/\/\/+/, '//')
+  const directoryOnly = item.Key.substr(0, item.Key.lastIndexOf('/'))
   const directory =
-    `${s3ReadUrl}${s3ReadUrl.endsWith('/') ? '' : '/'}${directoryOnly}`
+    `${s3ReadUrl.replace(/^\/\//, '/')}${s3ReadUrl.endsWith('/') ? '' : '/'}` +
+    directoryOnly
   const filename = item.Key.substr(item.Key.lastIndexOf('/') + 1)
   const extension = item.Key.substr(item.Key.lastIndexOf('.') + 1)
 
