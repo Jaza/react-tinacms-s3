@@ -262,7 +262,8 @@ const objectToMedia = (item: S3.Types.Object, s3ReadUrl: string): Media => {
   }
 
   if (previewable.includes(extension.toLowerCase())) {
-    mediaItem.previewSrc = `${directory}${directory ? '/' : ''}${filename}`
+    mediaItem.previewSrc =
+      `${directory.replace(/^\//, '//')}${directory ? '/' : ''}${filename}`
   }
 
   return mediaItem
